@@ -1,0 +1,370 @@
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cebu - Mart ContactUs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google Font (same as About Us) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    background:#f6f7f9;
+    color:#333;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 8%;
+    background:#f1f1f1;
+    border-bottom:1px solid #ddd;
+}
+
+.logo{
+    font-size:26px;
+    font-weight:600;
+}
+.logo span:first-child{color:#1f4fa3;}
+.logo span:last-child{color:#f4b400;}
+
+.nav-links{
+    list-style:none;
+    display:flex;
+    gap:40px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#444;
+    font-weight:500;
+}
+
+.nav-links a:hover{
+    color:#1f4fa3;
+}
+
+.cart{font-size:20px;cursor:pointer;position:relative;}
+#cartCount{
+    position:absolute;
+    top:-8px;
+    right:-12px;
+    background:red;
+    color:white;
+    font-size:12px;
+    padding:2px 6px;
+    border-radius:50%;
+}
+
+/* ================= CONTACT SECTION ================= */
+
+.section{
+    padding:100px 8%;
+    text-align:center;
+}
+
+.section h2{
+    font-family:'Playfair Display', serif;
+    font-size:48px;
+    font-weight:700;
+    margin-bottom:20px;
+    position: relative;
+}
+
+.section h2::before {
+    display: block;
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+.section .subtitle{
+    color:#666;
+    max-width:600px;
+    margin:0 auto 70px auto;
+    line-height:1.6;
+}
+
+/* 3 Boxes Layout (Same as About Us) */
+
+.box-container{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap:35px;
+}
+
+.box{
+    background:#ffffff;
+    padding:40px 30px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    transition:0.3s ease;
+}
+
+.box:hover{
+    transform:translateY(-6px);
+}
+
+.box h3{
+    font-family:'Playfair Display', serif;
+    font-size:20px;
+    font-weight:600;
+    margin-bottom:15px;
+    position: relative;
+}
+
+.box h3::before {
+    display: block;
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+
+.box p{
+    font-size:15px;
+    color:#555;
+    line-height:1.7;
+}
+
+.feature-box i{
+    font-size:40px;
+    color:#1f4fa3;
+    margin-bottom:20px;
+}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.logout-icon{
+    font-size:20px;
+    cursor:pointer;
+    color:#1f4fa3;
+    transition:0.3s ease;
+}
+
+.logout-icon:hover{
+    color:#c61c5d;
+    transform:translateY(-2px);
+}
+
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <span>Cebu</span> <span>Mart</span>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="aboutus.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+        <div class="cart" onclick="toggleCart()">
+            🛒 <span id="cartCount">0</span>
+        </div>
+
+        <!-- Logout Icon -->
+       <div class="logout-icon" onclick="logout()" title="Logout">
+    <i class="fa-solid fa-right-from-bracket"></i>
+</div>
+    </div>
+</nav>
+
+<!-- CONTACT SECTION -->
+<section class="section">
+    <h2>Contact Us</h2>
+    <p class="subtitle">
+        Have questions? We'd love to hear from you. Reach out anytime!
+    </p>
+
+    <div class="box-container">
+
+        <div class="box">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Address</h3>
+            <p>
+                124 Panagdait Kasambagan<br>
+                Cebu City<br>
+                Cebu, Philippines
+            </p>
+        </div>
+
+        <div class="box">
+            <i class="fas fa-phone"></i>
+            <h3>Phone</h3>
+            <p>
+                09084458846
+            </p>
+        </div>
+
+        <div class="box">
+            <i class="fas fa-envelope"></i>
+            <h3>Email</h3>
+            <p>
+                hello@pinoymart.ph
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// SAVE CART TO LOCAL STORAGE
+function saveCart(){
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// LOAD CART ON PAGE LOAD
+window.onload = function(){
+    updateCartUI();
+};
+
+// TOGGLE CART
+function toggleCart(){
+    document.getElementById("cartPanel").classList.toggle("active");
+}
+
+// ADD TO CART
+function addToCart(button){
+    let card = button.closest(".card");
+    let name = card.querySelector("h3").textContent;
+    let price = parseInt(card.getAttribute("data-price"));
+    let image = card.querySelector("img").src;
+
+    let existing = cart.find(item => item.name === name);
+
+    if(existing){
+        existing.quantity++;
+    }else{
+        cart.push({name, price, image, quantity:1});
+    }
+
+    saveCart();
+    updateCartUI();
+}
+
+// UPDATE UI
+function updateCartUI(){
+    let cartItems = document.getElementById("cartItems");
+    let totalEl = document.getElementById("cartTotal");
+    let countEl = document.getElementById("cartCount");
+
+    if(!cartItems) return;
+
+    cartItems.innerHTML="";
+    let total=0;
+    let count=0;
+
+    cart.forEach((item,index)=>{
+        total+=item.price*item.quantity;
+        count+=item.quantity;
+
+        cartItems.innerHTML+=`
+        <div class="cart-item">
+            <img src="${item.image}">
+            <div>
+                <strong>${item.name}</strong><br>
+                ₱${item.price}<br>
+                <button onclick="changeQty(${index},-1)">−</button>
+                ${item.quantity}
+                <button onclick="changeQty(${index},1)">+</button>
+                <button onclick="removeItem(${index})">🗑</button>
+            </div>
+        </div>`;
+    });
+
+    totalEl.textContent="₱"+total;
+    countEl.textContent=count;
+}
+
+// CHANGE QTY
+function changeQty(index,change){
+    cart[index].quantity+=change;
+
+    if(cart[index].quantity<=0){
+        cart.splice(index,1);
+    }
+
+    saveCart();
+    updateCartUI();
+}
+
+// REMOVE
+function removeItem(index){
+    cart.splice(index,1);
+    saveCart();
+    updateCartUI();
+}
+
+// CHECKOUT
+function checkout(){
+    let total = cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
+
+    if(total === 0){
+        alert("Your cart is empty!");
+        return;
+    }
+
+    let orderSummary = "🛍️ Your Order:\n\n";
+
+    cart.forEach(item => {
+        orderSummary += 
+            item.name + 
+            " (x" + item.quantity + ") - ₱" + (item.price * item.quantity) + "\n";
+    });
+
+    orderSummary += "\nTotal: ₱" + total;
+    orderSummary += "\n\n🎉 Salamat! Your order has been placed!";
+    orderSummary += "\nDaghang salamat sa pagpalit sa PinoyMart!";
+
+    alert(orderSummary);
+
+    cart = [];
+    saveCart();
+    updateCartUI();
+    toggleCart();
+}
+
+// Show logout only if logged in
+window.addEventListener("DOMContentLoaded", function(){
+    const logoutIcon = document.querySelector(".logout-icon");
+
+    if(localStorage.getItem("loggedIn") !== "true"){
+        logoutIcon.style.display = "none";
+    }
+});
+
+function logout(){
+    localStorage.removeItem("loggedIn");
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
