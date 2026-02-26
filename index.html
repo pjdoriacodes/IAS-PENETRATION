@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cebu Mart</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f5f5f5;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: #f2f2f2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 8%;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.logo span:first-child {
+    color: #1f4fa3;
+}
+
+.logo span:last-child {
+    color: #f4b400;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #1f4fa3;
+}
+
+.cart{font-size:20px;cursor:pointer;position:relative;}
+#cartCount{
+    position:absolute;
+    top:-8px;
+    right:-12px;
+    background:red;
+    color:white;
+    font-size:12px;
+    padding:2px 6px;
+    border-radius:50%;
+}
+
+.cart-panel{
+    position:fixed;
+    top:0;
+    right:-400px;
+    width:350px;
+    height:100%;
+    background:white;
+    box-shadow:-2px 0 10px rgba(0,0,0,0.1);
+    padding:20px;
+    overflow-y:auto;
+    transition:0.3s;
+    z-index:999;
+}
+.cart-panel.active{right:0;}
+.cart-item{display:flex;gap:10px;margin-bottom:15px;}
+.cart-item img{width:50px;height:50px;object-fit:contain;}
+.cart-item button{margin:2px;}
+.checkout-btn{
+    width:100%;
+    background:#f4b400;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+}
+/* ================= HERO ================= */
+
+.hero {
+    height: 100vh;
+    background: linear-gradient(to right, rgba(17, 58, 133, 0.9), rgba(17, 58, 133, 0.6)),
+                url('images/tutuban.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    color: white;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.badge {
+    display: inline-block;
+    background: #f4b400;
+    color: #000;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    line-height: 1.1;
+    margin-bottom: 25px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 35px;
+    color: #f1f1f1;
+}
+
+.btn {
+    background: #f4b400;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #ffcc33;
+    transform: translateY(-3px);
+}
+
+/* Decorative Waves */
+.wave1, .wave2 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+}
+
+.wave1 {
+    background: #1f4fa3;
+    clip-path: ellipse(70% 100% at 50% 100%);
+}
+
+.wave2 {
+    background: #c61c5d;
+    clip-path: ellipse(60% 100% at 50% 100%);
+    opacity: 0.8;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        right: 8%;
+        background: white;
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+    }
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.logout-icon{
+    font-size:20px;
+    cursor:pointer;
+    color:#1f4fa3;
+    transition:0.3s ease;
+}
+
+.logout-icon:hover{
+    color:#c61c5d;
+    transform:translateY(-2px);
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <span>Cebu</span> <span>Mart</span>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="aboutus.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+        <div class="cart" onclick="toggleCart()">
+            🛒 <span id="cartCount">0</span>
+        </div>
+
+        <!-- Logout Icon -->
+       <div class="logout-icon" onclick="logout()" title="Logout">
+    <i class="fa-solid fa-right-from-bracket"></i>
+</div>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="badge">CEBU PH</div>
+        <h1>Your Local Cebu Online Store</h1>
+        <p>
+            Discover Cebu’s best — world-famous delicacies, delivered straight to your doorstep.
+        </p>
+        <button class="btn" onclick="shopNow()">Shop Now</button>
+    </div>
+
+    <div class="wave1"></div>
+    <div class="wave2"></div>
+</section>
+
+<script>
+// Mobile Menu Toggle
+const toggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+if(toggle){
+    toggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+    });
+}
+
+// Button Action
+function shopNow() {
+    window.location.href = "products.html";
+}
+
+// Show logout only if logged in
+window.addEventListener("DOMContentLoaded", function(){
+    const logoutIcon = document.querySelector(".logout-icon");
+
+    if(localStorage.getItem("loggedIn") !== "true"){
+        logoutIcon.style.display = "none";
+    }
+});
+
+function logout(){
+    localStorage.removeItem("loggedIn");
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>
