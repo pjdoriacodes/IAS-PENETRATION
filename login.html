@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Cebu Mart</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:linear-gradient(135deg,#f8fafc,#eef2f7);
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 8%;
+    background:white;
+    box-shadow:0 4px 20px rgba(0,0,0,0.04);
+}
+
+.logo{
+    font-size:26px;
+    font-weight:600;
+}
+.logo span:first-child{color:#1f4fa3;}
+.logo span:last-child{color:#f4b400;}
+
+/* CENTER FORM */
+.form-container{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* CARD */
+.form-box{
+    background:white;
+    padding:50px 45px;
+    width:380px;
+    border-radius:18px;
+    box-shadow:0 25px 60px rgba(0,0,0,0.06);
+    animation:fadeUp 0.6s ease;
+    transition:0.3s;
+}
+
+.form-box:hover{
+    transform:translateY(-4px);
+    box-shadow:0 30px 70px rgba(0,0,0,0.08);
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.form-box h2{
+    text-align:center;
+    margin-bottom:35px;
+    font-family:'Playfair Display', serif;
+    font-size:30px;
+    color:#1f4fa3;
+}
+
+/* INPUTS */
+.input-group{
+    margin-bottom:22px;
+}
+
+.input-group input{
+    width:100%;
+    padding:14px 16px;
+    border-radius:12px;
+    border:1px solid #e0e6ed;
+    font-size:14px;
+    transition:0.25s ease;
+    background:#fafbfc;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#1f4fa3;
+    background:white;
+    box-shadow:0 0 0 4px rgba(31,79,163,0.08);
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#1f4fa3;
+    color:white;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.25s ease;
+}
+
+button:hover{
+    background:#163d80;
+    transform:translateY(-2px);
+    box-shadow:0 12px 25px rgba(31,79,163,0.25);
+}
+
+/* LINK */
+.link{
+    text-align:center;
+    margin-top:22px;
+    font-size:14px;
+    color:#666;
+}
+
+.link a{
+    color:#1f4fa3;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.link a:hover{
+    color:#f4b400;
+}
+
+/* Responsive */
+@media(max-width:480px){
+    .form-box{
+        width:100%;
+        padding:40px 30px;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo"><span>Cebu</span> <span>Mart</span></div>
+</nav>
+
+<div class="form-container">
+    <div class="form-box">
+        <h2>Login</h2>
+
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Email">
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password">
+        </div>
+
+        <button onclick="login()">Login</button>
+
+        <div class="link">
+            Don't have an account?
+            <a href="register.html">Register</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function login(){
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    let user = JSON.parse(localStorage.getItem("user"));
+
+    if(user && user.email === email && user.password === password){
+        alert("Login successful!");
+        localStorage.setItem("loggedIn", "true");
+        window.location.href = "index.html";
+    }else{
+        alert("Invalid email or password!");
+    }
+}
+</script>
+
+</body>
+</html>
