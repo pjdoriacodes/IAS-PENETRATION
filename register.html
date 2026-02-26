@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - Cebu Mart</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    background:linear-gradient(135deg,#f5f7fa,#e4ecf7);
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 8%;
+    background:white;
+    box-shadow:0 2px 15px rgba(0,0,0,0.05);
+}
+
+.logo{
+    font-size:26px;
+    font-weight:600;
+}
+.logo span:first-child{color:#1f4fa3;}
+.logo span:last-child{color:#f4b400;}
+
+/* CENTER FORM */
+.form-container{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* FORM CARD */
+.form-box{
+    background:white;
+    padding:45px 40px;
+    width:380px;
+    border-radius:20px;
+    box-shadow:0 20px 60px rgba(31,79,163,0.08);
+    animation:slideUp 0.6s ease;
+    transition:0.3s;
+}
+
+.form-box:hover{
+    transform:translateY(-6px);
+    box-shadow:0 25px 70px rgba(31,79,163,0.12);
+}
+
+@keyframes slideUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.form-box h2{
+    text-align:center;
+    margin-bottom:35px;
+    font-family:'Playfair Display', serif;
+    font-size:28px;
+    color:#1f4fa3;
+}
+
+/* FLOATING LABEL INPUT */
+.input-group{
+    position:relative;
+    margin-bottom:28px;
+}
+
+.input-group input{
+    width:100%;
+    padding:16px 12px;
+    border:1.5px solid #ddd;
+    border-radius:12px;
+    outline:none;
+    font-size:14px;
+    background:transparent;
+    transition:0.3s;
+}
+
+.input-group label{
+    position:absolute;
+    left:12px;
+    top:16px;
+    font-size:14px;
+    color:#888;
+    background:white;
+    padding:0 4px;
+    transition:0.3s;
+    pointer-events:none;
+}
+
+.input-group input:focus{
+    border-color:#1f4fa3;
+    box-shadow:0 0 0 4px rgba(31,79,163,0.08);
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label{
+    top:-8px;
+    font-size:12px;
+    color:#1f4fa3;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#1f4fa3;
+    color:white;
+    font-weight:600;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+button:hover{
+    background:#163d80;
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(31,79,163,0.25);
+}
+
+/* BUTTON RIPPLE EFFECT */
+button::after{
+    content:"";
+    position:absolute;
+    width:0;
+    height:0;
+    background:rgba(255,255,255,0.4);
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    transition:0.6s;
+}
+
+button:active::after{
+    width:300px;
+    height:300px;
+}
+
+/* LINK */
+.link{
+    text-align:center;
+    margin-top:20px;
+    font-size:14px;
+}
+
+.link a{
+    color:#1f4fa3;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.link a:hover{
+    color:#f4b400;
+}
+
+/* Responsive */
+@media(max-width:480px){
+    .form-box{
+        width:100%;
+        padding:35px 25px;
+    }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo"><span>Cebu</span> <span>Mart</span></div>
+</nav>
+
+<div class="form-container">
+    <div class="form-box">
+        <h2>Register</h2>
+
+        <div class="input-group">
+            <input type="text" id="name" placeholder="Full Name">
+        </div>
+
+        <div class="input-group">
+            <input type="email" id="email" placeholder="Email">
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password">
+        </div>
+
+        <button onclick="register()">Register</button>
+
+        <div class="link">
+            Already have an account?
+            <a href="login.html">Login</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function register(){
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    if(name === "" || email === "" || password === ""){
+        alert("Please fill in all fields!");
+        return;
+    }
+
+    let user = {
+        name: name,
+        email: email,
+        password: password
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+    alert("Registration successful!");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
