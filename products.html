@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cebu - Mart Products</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins', sans-serif;background:#f6f7f9;color:#333;}
+
+/* NAVBAR */
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:18px 8%;background:#f1f1f1;border-bottom:1px solid #ddd;}
+.logo{font-size:26px;font-weight:600;}
+.logo span:first-child{color:#1f4fa3;}
+.logo span:last-child{color:#f4b400;}
+.nav-links{list-style:none;display:flex;gap:40px;}
+.nav-links a{text-decoration:none;color:#444;font-weight:500;}
+.nav-links a:hover{color:#1f4fa3;}
+.cart{font-size:20px;cursor:pointer;position:relative;}
+#cartCount{
+    position:absolute;
+    top:-8px;
+    right:-12px;
+    background:red;
+    color:white;
+    font-size:12px;
+    padding:2px 6px;
+    border-radius:50%;
+}
+
+/* PAGE HEADER */
+.page-header{text-align:center;padding:60px 20px 30px;}
+.page-header h1{font-family:'Playfair Display', serif;font-size:40px;margin-bottom:10px;}
+.page-header p{color:#666;}
+
+/* SEARCH + FILTER */
+.controls{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:40px;}
+.search-box{padding:12px 15px;width:260px;border-radius:25px;border:1px solid #ccc;outline:none;}
+.filters button{padding:8px 16px;border:none;border-radius:20px;cursor:pointer;font-size:14px;background:#eaeaea;transition:0.3s;}
+.filters button.active,.filters button:hover{background:#1f4fa3;color:white;}
+
+/* PRODUCTS */
+.products{width:85%;margin:auto;display:grid;grid-template-columns:repeat(auto-fit, minmax(300px,1fr));gap:30px;padding-bottom:60px;}
+.card{background:white;border-radius:15px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,0.05);transition:0.3s;position:relative;}
+.card:hover{transform:translateY(-5px);}
+.card img{width:100%;height:300px;object-fit:contain;margin-bottom:20px;}
+.card h3{font-family:'Playfair Display', serif;margin-bottom:10px;}
+.card p{font-size:14px;color:#666;margin-bottom:15px;}
+.price-cart{display:flex;justify-content:space-between;align-items:center;}
+.price{font-weight:600;color:#1f4fa3;font-size:18px;}
+.add-btn{background:#1f4fa3;color:white;border:none;padding:8px 14px;border-radius:8px;cursor:pointer;}
+.add-btn:hover{background:#163d80;}
+
+/* CART PANEL */
+.cart-panel{
+    position:fixed;
+    top:0;
+    right:-400px;
+    width:350px;
+    height:100%;
+    background:white;
+    box-shadow:-2px 0 10px rgba(0,0,0,0.1);
+    padding:20px;
+    overflow-y:auto;
+    transition:0.3s;
+    z-index:999;
+}
+.cart-panel.active{right:0;}
+.cart-item{display:flex;gap:10px;margin-bottom:15px;}
+.cart-item img{width:50px;height:50px;object-fit:contain;}
+.cart-item button{margin:2px;}
+.checkout-btn{
+    width:100%;
+    background:#f4b400;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+@media(max-width:768px){.nav-links{display:none;}}
+
+.nav-actions{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.logout-icon{
+    font-size:20px;
+    cursor:pointer;
+    color:#1f4fa3;
+    transition:0.3s ease;
+}
+
+.logout-icon:hover{
+    color:#c61c5d;
+    transform:translateY(-2px);
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <span>Cebu</span> <span>Mart</span>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="aboutus.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+        <div class="cart" onclick="toggleCart()">
+            🛒 <span id="cartCount">0</span>
+        </div>
+
+        <!-- Logout Icon -->
+       <div class="logout-icon" onclick="logout()" title="Logout">
+    <i class="fa-solid fa-right-from-bracket"></i>
+</div>
+    </div>
+</nav>
+
+<section class="page-header">
+    <h1>Our Products</h1>
+    <p>Authentic Filipino goods, crafted with love</p>
+</section>
+
+<section class="products">
+
+
+    <div class="card" data-price="180">
+        <img src="images/dried-mangoes.jpg">
+        <h3>Dried Mangoes</h3>
+        <p>Sweet and chewy dried mango slices made from the finest Cebu mangoes.</p>
+        <div class="price-cart">
+            <div class="price">₱180</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+
+     <div class="card" data-price="180">
+        <img src="images/otap.jpg">
+        <h3>Otap</h3>
+        <p>Oval-shaped flaky puff pastry, a beloved Cebu pasalubong with a light, buttery crunch.</p>
+        <div class="price-cart">
+            <div class="price">₱120</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+
+     <div class="card" data-price="180">
+        <img src="images/lechon.png">
+        <h3>Cebu Lechon</h3>
+        <p>World-famous Cebu-style roasted pig with perfectly crispy skin and juicy, flavorful meat.</p>
+        <div class="price-cart">
+            <div class="price">₱4,500</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+
+     <div class="card" data-price="180">
+        <img src="images/rosquillos.jpg">
+        <h3>Rosquillos</h3>
+        <p>Classic ring-shaped Cebu cookies, golden-baked and delightfully crunchy with a hint of sweetness.</p>
+        <div class="price-cart">
+            <div class="price">₱150</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+
+     <div class="card" data-price="180">
+        <img src="images/ube-halaya.jpg">
+        <h3>Ube Halaya</h3>
+        <p>Rich and creamy purple yam jam, a beloved Filipino delicacy perfect for desserts.</p>
+        <div class="price-cart">
+            <div class="price">₱250</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+
+     <div class="card" data-price="180">
+        <img src="images/chorizo.jpg">
+        <h3>Chorizo de Cebu</h3>
+        <p>Sweet and savory Cebu-style sausages, a breakfast staple with a distinct Filipino flavor.</p>
+        <div class="price-cart">
+            <div class="price">₱320</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+
+     <div class="card" data-price="180">
+        <img src="images/danggit.jpg">
+        <h3>Danggit</h3>
+        <p>Dried rabbitfish, a signature Cebu delicacy — crispy when fried, perfect with vinegar dip.</p>
+        <div class="price-cart">
+            <div class="price">₱280</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="card" data-price="180">
+        <img src="images/chicharon.jpg">
+        <h3>CarCar Cebu Chicharon</h3>
+        <p>Crispy deep-fried pork cracklings from Cebu — light, crunchy, and perfect with spiced vinegar.</p>
+        <div class="price-cart">
+            <div class="price">₱160</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="card" data-price="180">
+        <img src="images/siomai.jpg">
+        <h3>Siomai sa Tisa</h3>
+        <p>Famous Cebu-style steamed pork dumplings from Tisa, served with chili garlic sauce.</p>
+        <div class="price-cart">
+            <div class="price">340</div>
+            <button class="add-btn" onclick="addToCart(this)">Add to Cart</button>
+        </div>
+    </div>
+</section>
+
+<!-- CART PANEL -->
+<div class="cart-panel" id="cartPanel">
+    <h2>Shopping Cart</h2>
+    <div id="cartItems"></div>
+    <h3>Total: <span id="cartTotal">₱0</span></h3>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// SAVE CART TO LOCAL STORAGE
+function saveCart(){
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// LOAD CART ON PAGE LOAD
+window.onload = function(){
+    updateCartUI();
+};
+
+// TOGGLE CART
+function toggleCart(){
+    document.getElementById("cartPanel").classList.toggle("active");
+}
+
+// ADD TO CART
+function addToCart(button){
+    let card = button.closest(".card");
+    let name = card.querySelector("h3").textContent;
+    let price = parseInt(card.getAttribute("data-price"));
+    let image = card.querySelector("img").src;
+
+    let existing = cart.find(item => item.name === name);
+
+    if(existing){
+        existing.quantity++;
+    }else{
+        cart.push({name, price, image, quantity:1});
+    }
+
+    saveCart();
+    updateCartUI();
+}
+
+// UPDATE UI
+function updateCartUI(){
+    let cartItems = document.getElementById("cartItems");
+    let totalEl = document.getElementById("cartTotal");
+    let countEl = document.getElementById("cartCount");
+
+    if(!cartItems) return;
+
+    cartItems.innerHTML="";
+    let total=0;
+    let count=0;
+
+    cart.forEach((item,index)=>{
+        total+=item.price*item.quantity;
+        count+=item.quantity;
+
+        cartItems.innerHTML+=`
+        <div class="cart-item">
+            <img src="${item.image}">
+            <div>
+                <strong>${item.name}</strong><br>
+                ₱${item.price}<br>
+                <button onclick="changeQty(${index},-1)">−</button>
+                ${item.quantity}
+                <button onclick="changeQty(${index},1)">+</button>
+                <button onclick="removeItem(${index})">🗑</button>
+            </div>
+        </div>`;
+    });
+
+    totalEl.textContent="₱"+total;
+    countEl.textContent=count;
+}
+
+// CHANGE QTY
+function changeQty(index,change){
+    cart[index].quantity+=change;
+
+    if(cart[index].quantity<=0){
+        cart.splice(index,1);
+    }
+
+    saveCart();
+    updateCartUI();
+}
+
+// REMOVE
+function removeItem(index){
+    cart.splice(index,1);
+    saveCart();
+    updateCartUI();
+}
+
+// CHECKOUT
+function checkout(){
+    let total = cart.reduce((sum,item)=>sum+item.price*item.quantity,0);
+
+    if(total === 0){
+        alert("Your cart is empty!");
+        return;
+    }
+
+    let orderSummary = "🛍️ Your Order:\n\n";
+
+    cart.forEach(item => {
+        orderSummary += 
+            item.name + 
+            " (x" + item.quantity + ") - ₱" + (item.price * item.quantity) + "\n";
+    });
+
+    orderSummary += "\nTotal: ₱" + total;
+    orderSummary += "\n\n🎉 Salamat! Your order has been placed!";
+    orderSummary += "\nDaghang salamat sa pagpalit sa PinoyMart!";
+
+    alert(orderSummary);
+
+    cart = [];
+    saveCart();
+    updateCartUI();
+    toggleCart();
+}
+
+// Show logout only if logged in
+window.addEventListener("DOMContentLoaded", function(){
+    const logoutIcon = document.querySelector(".logout-icon");
+
+    if(localStorage.getItem("loggedIn") !== "true"){
+        logoutIcon.style.display = "none";
+    }
+});
+
+function logout(){
+    localStorage.removeItem("loggedIn");
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
